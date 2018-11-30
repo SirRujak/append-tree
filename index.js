@@ -6,7 +6,7 @@ var codecs = require('codecs')
 var inherits = require('inherits')
 var events = require('events')
 var cache = require('array-lru')
-var nextTick = require('process-nextick-args')
+var pna = require('process-nextick-args')
 
 module.exports = Tree
 
@@ -546,7 +546,7 @@ Tree.prototype._getAndDecode = function (seq, opts, cb) {
 
   var self = this
   var cached = this._cache && this._cache.get(seq)
-  if (cached) return nextTick(cb, null, cached, seq)
+  if (cached) return pna.nextTick(cb, null, cached, seq)
 
   this.feed.get(seq, opts, function (err, value) {
     if (err) return cb(err)
